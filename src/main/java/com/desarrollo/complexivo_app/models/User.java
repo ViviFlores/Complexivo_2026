@@ -3,6 +3,8 @@ package com.desarrollo.complexivo_app.models;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name="users")
 public class User {
@@ -14,6 +16,12 @@ public class User {
     private String email;
     private String password;
     private Date date;
+
+    //Relación
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="users_roles", joinColumns = @JoinColumn(name="user_id")
+        ,inverseJoinColumns = @JoinColumn(name="role_id"))
+    private List<Role> roles = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -53,5 +61,13 @@ public class User {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

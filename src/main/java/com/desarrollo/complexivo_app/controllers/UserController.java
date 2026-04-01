@@ -3,6 +3,7 @@ package com.desarrollo.complexivo_app.controllers;
 import com.desarrollo.complexivo_app.models.User;
 import com.desarrollo.complexivo_app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,10 @@ public class UserController {
     UserService service;
 
     @GetMapping("/register")
-    public String getFormRegister(Model model){
+    public String getFormRegister(Model model, Authentication authentication){
+        if(authentication != null && authentication.isAuthenticated()){
+            return "redirect:/";
+        }
         model.addAttribute("user", new User());
         return "auth/register";
     }
