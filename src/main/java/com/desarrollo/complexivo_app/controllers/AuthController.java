@@ -20,11 +20,6 @@ public class AuthController {
         return "auth/login";
     }
 
-    @GetMapping("/")
-    public String home(){
-        return "product/home";
-    }
-
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.logout();

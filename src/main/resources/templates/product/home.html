@@ -18,7 +18,7 @@
             <h1 class="display-4 text-primary">PRODUCTOS</h1>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3" th:if="${role != 'ROLE_USER'}">
             <a th:href="@{/add-product}" class="btn btn-success">Agregar Producto</a>
         </div>
 
@@ -31,20 +31,27 @@
                 <th>Categoría</th>
                 <th>Stock</th>
                 <th>Descripción</th>
-                <th class="text-center">Opciones</th>
+                <th class="text-center " th:if="${role != 'ROLE_USER'}">Opciones</th>
             </tr>
             </thead>
             <tbody>
-                <td>1</td>
-                <td>Laptop Asus</td>
-                <td>$1500</td>
-                <td>Computadoras</td>
-                <td>10</td>
-                <td>Un producto excelente para tus necesidades tecnológicas</td>
-                <td class="text-center">
-                    <button type="button" class="btn btn-warning btn-sm">Editar</button>
-                    <button type="button" class="btn btn-danger btn-sm">Eliminar</button>
-                </td>
+                <tr th:each = "product : ${products}">
+                    <td th:text="${product.id}"></td>
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${product.precio}"></td>
+                    <td th:text="${product.category.name}"></td>
+                    <td th:text="${product.stock}"></td>
+                    <td th:text="${product.description}"></td>
+                    <td class="text-center" th:if="${role != 'ROLE_USER'}">
+                        <div class="d-inline-flex gap-1">
+                            <a th:href="@{/product/edit/{id}(id=${product.id})}" class="btn btn-warning btn-sm">Editar</a>
+                            <form th:action="@{/product/delete/{id}(id=${product.id})}" method="post"
+                                onsubmit="return confirm('¿Seguro que desea eliminar este producto?');">
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 

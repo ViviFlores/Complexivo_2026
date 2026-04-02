@@ -7,33 +7,34 @@
 </head>
 <body>
   <div class="container mt-5">
-    <h1 class="text-center">Agregar Producto</h1>
-    <form action="" method="post">
+    <h1 th:text="${product.id == null ? 'Agregar Producto' : 'Editar Producto'}" class="text-center"></h1>
+    <form th:action="@{${product.id == null} ? '/add-product' : '/product/edit/'+${product.id}}" th:object="${product}" method="post">
       <div class="mb-3">
         <label class="form-label" form="name">Nombre</label>
-        <input class="form-control" id="name" type="text" name="name" required>
+        <input th:field="*{name}" class="form-control" type="text" required>
       </div>
       <div class="mb-3">
-        <label class="form-label" form="price">Precio</label>
-        <input class="form-control" id="price" type="number" name="price" required>
+        <label class="form-label" form="precio">Precio</label>
+        <input th:field="*{precio}" class="form-control" type="number" step="0.01" min="0" required>
       </div>
       <div class="mb-3">
         <label class="form-label" form="stock">Stock</label>
-        <input class="form-control" id="stock" type="number" name="stock" required>
+        <input th:field="*{stock}" class="form-control" type="number" required>
       </div>
       <div class="mb-3">
         <label class="form-label" form="description">Descripción</label>
-        <textarea class="form-control" id="description" type="text" name="description" rows="3" required></textarea>
+        <textarea th:field="*{description}" class="form-control" type="text" rows="3" required></textarea>
       </div>
       <div class="mb-3">
         <label class="form-label" form="category">Categoría</label>
-        <select class="form-control" id="category" name="category.id" required>
-          <option value="" disabled selected>Seleccionar Categoría</option>
+        <select th:field="*{category}" class="form-control" required>
+          <option value="" selected>Seleccionar Categoría</option>
           <th:block th:each="category : ${categories}">
             <option th:value="${category.id}" th:text="${category.name}"></option>
           </th:block>
         </select>
       </div>
+      <button class="btn btn-success mb-4" type="submit">Guardar Producto</button>
     </form>
   </div>
 </body>
